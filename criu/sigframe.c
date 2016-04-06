@@ -35,9 +35,8 @@ int construct_sigframe(struct rt_sigframe *sigframe,
 	if (restore_fpu(sigframe, core))
 		return -1;
 
-	if (RT_SIGFRAME_HAS_FPU(sigframe))
-		if (sigreturn_prep_fpu_frame(sigframe, &RT_SIGFRAME_FPU(rsigframe)))
-			return -1;
+	if (sigreturn_update_frame(sigframe, rsigframe))
+		return -1;
 
 	if (restore_gpregs(sigframe, CORE_THREAD_ARCH_INFO(core)->gpregs))
 		return -1;

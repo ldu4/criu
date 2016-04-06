@@ -122,8 +122,8 @@ static inline int ptrace_flush_breakpoints(pid_t pid)
         return 0;
 }
 
-int sigreturn_prep_fpu_frame(struct rt_sigframe *sigframe,
-			     mcontext_t *sigcontext);
+int sigreturn_update_frame(struct rt_sigframe *sigframe,
+			   struct rt_sigframe *rsigframe);
 
 /*
  * Defined in arch/ppc64/syscall-common-ppc64.S

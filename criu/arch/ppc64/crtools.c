@@ -471,12 +471,15 @@ int restore_fpu(struct rt_sigframe *sigframe, CoreEntry *core)
  * used in the context of the checkpointed process, the v_regs pointer in the
  * signal frame must be updated to match the address in the remote stack.
  */
-int sigreturn_prep_fpu_frame(struct rt_sigframe *frame, mcontext_t *rcontext)
+int sigreturn_update_frame(struct rt_sigframe *frame,
+			   struct rt_sigframe *rframe)
 {
+	uint64_t offset;
 	mcontext_t *lcontext = &frame->uc.uc_mcontext;
+	mcontext_t *rcontext = &rframe->uc.uc_mcontext
 
 	if (lcontext->v_regs) {
-		uint64_t offset = (uint64_t)(lcontext->v_regs) - (uint64_t)lcontext;
+		offset = (uint64_t)(lcontext->v_regs) - (uint64_t)lcontext;
 		lcontext->v_regs = (vrregset_t *)((uint64_t)rcontext + offset);
 
 		pr_debug("Updated v_regs:%llx (rcontext:%llx)\n",

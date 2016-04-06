@@ -101,7 +101,11 @@ struct rt_sigframe {
 int restore_gpregs(struct rt_sigframe *f, UserAarch64RegsEntry *r);
 int restore_nonsigframe_gpregs(UserAarch64RegsEntry *r);
 
-static inline int sigreturn_prep_fpu_frame(struct rt_sigframe *sigframe, fpu_state_t *fpu_state) { return 0; }
+static inline int sigreturn_update_frame(struct rt_sigframe *sigframe,
+				         struct rt_sigframe *rsigframe);
+{
+	return 0;
+}
 
 static inline void restore_tls(tls_t *ptls)
 {
