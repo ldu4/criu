@@ -997,7 +997,7 @@ int parasite_stop_on_syscall(int tasks, const int sys_nr, enum trace_flags trace
 			}
 
 			if (!WIFSTOPPED(status) || WSTOPSIG(status) != SIGTRAP) {
-				pr_err("Task is in unexpected state: %x\n", status);
+				pr_err("Task is in unexpected state after syscall %lu : %x\n", REG_SYSCALL_NR(regs), status);
 				return -1;
 			}
 
